@@ -11,7 +11,8 @@ namespace DiceGame
     {
         static void Main(string[] args)
         {
-            
+            GameController controller = new GameController();
+            controller.Play();
         }
     }
 }
