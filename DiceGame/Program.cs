@@ -1,4 +1,5 @@
-﻿using DiceGame.Scripts;
+﻿using DiceGame.Scripts.Menus;
+using DiceGame.Scripts.Play;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,13 @@ namespace DiceGame
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            GameController controller = new GameController();
-            controller.Play();
+            Settings settings = new Settings();
+            GameManager gameManager = new GameManager(settings);
+            MainMenuManager menuManager = new MainMenuManager(gameManager, settings);
+            gameManager.StartingActions();
+            menuManager.Introduction();
         }
     }
 }

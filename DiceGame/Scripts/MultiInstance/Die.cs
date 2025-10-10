@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiceGame.Scripts
+namespace DiceGame.Scripts.MultiInstance
 {
     internal class Die(int sidesCon = 0)
     {
