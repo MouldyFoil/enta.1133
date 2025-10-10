@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DiceGame.Scripts.MultiInstance
 {
-    internal class Player(bool CPU = false, string name = "unnamed") //The class for the player and opponent. I didnt make it in a seperate file because its only used in this script, hope thats okay.
+    internal class Player(bool CPU = false, string name = "unnamed") //The class for the player and opponent.
     {
         internal string name = name;
         internal List<Die> dice = new List<Die>();

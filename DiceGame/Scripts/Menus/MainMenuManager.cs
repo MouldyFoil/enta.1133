@@ -12,6 +12,7 @@ namespace DiceGame.Scripts.Menus
         GameManager gameManager = gameManagerConst;
         Settings settings = settingsConst;
         bool quit = false;
+        bool inTutorial;
         internal void Introduction()
         {
             Console.WriteLine("Hello and welcome to");
@@ -51,7 +52,7 @@ namespace DiceGame.Scripts.Menus
                             Tutorial();
                             break;
                         case 3:
-                            settings.SettingsMenu();
+                            settings.RunSettingsMenu();
                             break;
                         case 4:
                             quit = true;
@@ -71,9 +72,90 @@ namespace DiceGame.Scripts.Menus
         }
         private void Tutorial()
         {
-
+            inTutorial = true;
+            List<string> pages;
+            pages = new List<string>();
+            pages.Add
+            ("So you're wondering how you play..." +
+            "\nIt's simple!"+
+            "\n..."+
+            "\nI think?"
+            );
+            pages.Add
+            (
+             "ROUNDS:" +
+             "\nEach player gets a set of dice, by default they get a D6, D8, D12 and D20" +
+             "\nAll players must roll one of these on their turn" +
+             "\nWhen a player rolls a die, it gets used up and they cant use it for the rest of the match" +
+             "\nThe player with the highest roll scores a point" +
+             "\nIf players tie on a roll, they reroll their die untill a winner is decided" +
+             "\nThis continues until all dice have been used up"
+            );
+            pages.Add
+            (
+             "MATCHES:" +
+             "\nWhen all dice have been used up, player scores are compared" +
+             "\nIf players tie here, the player with the highest sum of winning rolls wins"
+            );
+            pages.Add
+            (
+             "BYE BYE:"+
+             "\nThats pretty much how it works"+
+             "\nContinuing will exit the tutorial"
+            );
+            DisplaytTutorial(pages);
         }
-        
-        
+        private void DisplaytTutorial(List<string> pages)
+        {
+            int pageIndex = 0;
+            while (inTutorial)
+            {
+                Console.WriteLine("\n\n" + pages[pageIndex]);
+                Console.WriteLine("\n1. Next\n2. Previous\n3. Exit");
+                pageIndex = TutorialInputs(pageIndex);
+                if(pageIndex >= pages.Count())
+                {
+                    inTutorial = false;
+                }
+                if(pageIndex < 0)
+                {
+                    pageIndex = 0;
+                    Console.WriteLine("YOURE ON THE FIRST PAGE, EXIT TO LEAVE TUTORIAL");
+                }
+            }
+        }
+        private int TutorialInputs(int indexToAddTo)
+        {
+            bool validInput = false;
+            while (!validInput)
+            {
+                validInput = true;
+                if (int.TryParse(Console.ReadLine(), out int parsedNum))
+                {
+                    switch (parsedNum)
+                    {
+                        case 1:
+                            indexToAddTo++;
+                            break;
+                        case 2:
+                            indexToAddTo--;
+                            break;
+                        case 3:
+                            inTutorial = false;
+                            break;
+                        default:
+                            validInput = false;
+                            Console.WriteLine("INVALID INPUT");
+                            break;
+                    }
+                }
+                else
+                {
+                    validInput = false;
+                    Console.WriteLine("INVALID INPUT");
+                }
+            }
+            return indexToAddTo;
+        }
     }
 }

@@ -14,13 +14,15 @@ namespace DiceGame.Scripts.Menus
         internal List<int> diceOptions { get; private set; } = [6, 8, 12, 20];
         SettingsDisplay display = new SettingsDisplay();
         PlayerSettings playerSettings;
-        int playerMax = 6;
+        DiceSettings diceSettings;
+        int playerMax = 4;
         bool inSettings;
         internal void StartupThings()
         {
             playerSettings = new PlayerSettings(display);
+            diceSettings = new DiceSettings(display);
         }
-        internal void SettingsMenu()
+        internal void RunSettingsMenu()
         {
             inSettings = true;
             while (inSettings)
@@ -43,10 +45,10 @@ namespace DiceGame.Scripts.Menus
                     switch (parsedNum)
                     {
                         case 1:
-                            playerSettings.RunPlayersSettings(players, playerMax);
+                            players = playerSettings.RunPlayersSettings(players, playerMax);
                             break;
                         case 2:
-                            DiceSettings();
+                            diceOptions = diceSettings.RunDiceSettings(diceOptions);
                             break;
                         case 3:
                             inSettings = false;
@@ -65,10 +67,7 @@ namespace DiceGame.Scripts.Menus
             }
         }
         
-        private void DiceSettings()
-        {
-            display.DisplayDiceOptions(diceOptions);
-        }
+        
         
     }
 }

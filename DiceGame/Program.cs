@@ -16,6 +16,7 @@ namespace DiceGame
             GameManager gameManager = new GameManager(settings);
             MainMenuManager menuManager = new MainMenuManager(gameManager, settings);
             gameManager.StartingActions();
+            settings.StartupThings();
             menuManager.Introduction();
         }
     }

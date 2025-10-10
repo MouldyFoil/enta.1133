@@ -14,21 +14,33 @@ namespace DiceGame.Scripts.Menus
         int playerMax;
         SettingsDisplay display = displayIn;
         bool inPlayerSettings;
-        internal void RunPlayersSettings(List<Player> playersIn, int playerMax)
+        bool ignorePlayerLimits = false;
+        internal List<Player> RunPlayersSettings(List<Player> playersIn, int playerMax)
         {
             players = playersIn;
             inPlayerSettings = true;
             while (inPlayerSettings)
             {
                 Console.WriteLine("PLAYER SETTINGS\n\n");
-                Console.WriteLine(players.Count() + "/" + playerMax + " players");
+                if (!ignorePlayerLimits)
+                {
+                    Console.WriteLine(players.Count() + "/" + playerMax + " players");
+                }
+                else
+                {
+                    Console.WriteLine(players.Count() + " players");
+                    Console.WriteLine("WARNING: PLAYER LIMITS DISABLED, ROUNDS MAY BE UNBEARABLY LONG OR NOT WORK");
+                }
                 Console.WriteLine("Current players:\n" + display.ListPlayers(players, " ", "", true, true));
-                Console.WriteLine("1. Edit player");
+                Console.WriteLine("\n1. Edit player");
                 Console.WriteLine("2. Add player");
                 Console.WriteLine("3. Remove player");
-                Console.WriteLine("4. Back");
+                Console.WriteLine("4. Edit all players");
+                Console.WriteLine("5. Disable/enable playercount limits");
+                Console.WriteLine("6. Back");
                 PlayerSettingsInput();
             }
+            return players;
         }
         private void PlayerSettingsInput()
         {
@@ -41,7 +53,7 @@ namespace DiceGame.Scripts.Menus
                     switch (parsedNum)
                     {
                         case 1:
-                            EditPlayer();
+                            SelectAndEditPlayer();
                             break;
                         case 2:
                             AddPlayer(playerMax);
@@ -50,6 +62,15 @@ namespace DiceGame.Scripts.Menus
                             RemovePlayer();
                             break;
                         case 4:
+                            foreach(Player player in players)
+                            {
+                                EditPlayer(player);
+                            }
+                            break;
+                        case 5:
+                            ignorePlayerLimits = !ignorePlayerLimits;
+                            break;
+                        case 6:
                             inPlayerSettings = false;
                             break;
                         default:
@@ -65,11 +86,16 @@ namespace DiceGame.Scripts.Menus
                 }
             }
         }
-        private void EditPlayer()
+        private void SelectAndEditPlayer()
         {
             int numberInput = SelectPlayer("edit");
-            Player playerSelected = players[numberInput - 1];
-            Console.WriteLine("Would you like to.. \n 1. Edit name \n 2. Flip CPU status \n 3. Both \n 4. Nevermind...");
+            EditPlayer(players[numberInput - 1]);
+        }
+
+        private void EditPlayer(Player playerSelected)
+        {
+            Console.WriteLine("\nEDITING: " + playerSelected.name);
+            Console.WriteLine("\nWould you like to.. \n 1. Edit name \n 2. Flip CPU status \n 3. Both \n 4. Nevermind...");
             bool validInput = false;
             while (!validInput)
             {
@@ -108,14 +134,8 @@ namespace DiceGame.Scripts.Menus
         private void FlipCPUStatus(Player playerSelected)
         {
             playerSelected.isCPU = !playerSelected.isCPU;
-            string playerCPUStatus = "no longer";
-            if (playerSelected.isCPU)
-            {
-                playerCPUStatus = "now";
-            }
-            Console.WriteLine(playerSelected.name + " is " + playerCPUStatus + " a CPU");
+            display.DisplayPlayerCPUStatus(playerSelected);
         }
-
         private void SetNewName(Player playerSelected)
         {
             Console.WriteLine("What is their new name?");
@@ -124,7 +144,7 @@ namespace DiceGame.Scripts.Menus
 
         private void AddPlayer(int playerMax)
         {
-            if (players.Count <= playerMax)
+            if (players.Count <= playerMax || ignorePlayerLimits)
             {
                 Player newPlayer = new Player();
                 SetPlayerValues(newPlayer);
@@ -146,9 +166,16 @@ namespace DiceGame.Scripts.Menus
 
         private void RemovePlayer()
         {
-            int numberInput = SelectPlayer("remove");
-            Console.WriteLine("Removing " + players[numberInput - 1]);
-            players.RemoveAt(numberInput - 1);
+            if(players.Count > 2 || ignorePlayerLimits)
+            {
+                int numberInput = SelectPlayer("remove");
+                Console.WriteLine("Removing " + players[numberInput - 1]);
+                players.RemoveAt(numberInput - 1);
+            }
+            else
+            {
+                Console.WriteLine("You don't want to play alone, do you?");
+            }
         }
         private int SelectPlayer(string action)
         {
