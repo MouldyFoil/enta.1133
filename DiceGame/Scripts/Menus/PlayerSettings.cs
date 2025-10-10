@@ -15,16 +15,17 @@ namespace DiceGame.Scripts.Menus
         SettingsDisplay display = displayIn;
         bool inPlayerSettings;
         bool ignorePlayerLimits = false;
-        internal List<Player> RunPlayersSettings(List<Player> playersIn, int playerMax)
+        internal List<Player> RunPlayersSettings(List<Player> playersIn, int playerMaxIn)
         {
             players = playersIn;
+            playerMax = playerMaxIn;
             inPlayerSettings = true;
             while (inPlayerSettings)
             {
                 Console.WriteLine("PLAYER SETTINGS\n\n");
                 if (!ignorePlayerLimits)
                 {
-                    Console.WriteLine(players.Count() + "/" + playerMax + " players");
+                    Console.WriteLine(players.Count() + "/" + playerMaxIn + " players");
                 }
                 else
                 {
@@ -144,7 +145,7 @@ namespace DiceGame.Scripts.Menus
 
         private void AddPlayer(int playerMax)
         {
-            if (players.Count <= playerMax || ignorePlayerLimits)
+            if (players.Count < playerMax || ignorePlayerLimits)
             {
                 Player newPlayer = new Player();
                 SetPlayerValues(newPlayer);
@@ -166,7 +167,7 @@ namespace DiceGame.Scripts.Menus
 
         private void RemovePlayer()
         {
-            if(players.Count > 2 || ignorePlayerLimits)
+            if(players.Count < 2 || ignorePlayerLimits)
             {
                 int numberInput = SelectPlayer("remove");
                 Console.WriteLine("Removing " + players[numberInput - 1]);

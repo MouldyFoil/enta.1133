@@ -66,6 +66,10 @@ namespace DiceGame.Scripts.Play
         }
         private void MatchStartupActions()
         {
+            foreach (Player player in players)
+            {
+                player.score = 0;
+            }
             players = settings.players;
             diceOptions = settings.diceOptions;
             SetPlayersDice(diceOptions, players);
@@ -121,6 +125,7 @@ namespace DiceGame.Scripts.Play
                 if (topPlayers[i].ReturnActiveDieRoll() < highestRoll)
                 {
                     topPlayers.RemoveAt(i);
+                    i = 0;
                 }
             }
             if (topPlayers.Count > 1)
@@ -134,7 +139,7 @@ namespace DiceGame.Scripts.Play
                 Player winningPlayer = topPlayers[0];
                 winningPlayer.score++;
                 winningPlayer.winningRolls.Add(winningPlayer.ReturnActiveDieRoll());
-                Console.WriteLine(winningPlayer.name + " won the round!");
+                Console.WriteLine("\n\nWINNNER------\n" + winningPlayer.name + " won the round!");
                 Console.WriteLine(winningPlayer.name + " now has " + winningPlayer.score.ToString() + " score.");
             }
         }
@@ -162,6 +167,7 @@ namespace DiceGame.Scripts.Play
         }
         private void DetermineMatchWinner()
         {
+            Console.WriteLine("\n\nMATCH RESULTS------\n");
             List<Player> topPlayers = players.ToList();
             int highestScore = FindHighestScore(topPlayers);
             for (int i = 0; i < topPlayers.Count; i++)
@@ -169,6 +175,7 @@ namespace DiceGame.Scripts.Play
                 if (topPlayers[i].score < highestScore)
                 {
                     topPlayers.RemoveAt(i);
+                    i = 0;
                 }
             }
             if (topPlayers.Count > 1)
@@ -229,11 +236,12 @@ namespace DiceGame.Scripts.Play
                     {
                         unbreakableTieText += ", ";
                     }
-                    else if(index == topPlayers.Count())
+                    else if(index == topPlayers.Count() - 1)
                     {
                         unbreakableTieText += "AND ";
                     }
                     unbreakableTieText += player.name.ToUpper();
+                    index++;
                 }
                 Console.WriteLine(unbreakableTieText + "!");
             }

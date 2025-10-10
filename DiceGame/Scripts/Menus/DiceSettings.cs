@@ -131,16 +131,17 @@ namespace DiceGame.Scripts.Menus
         private List<int> HandleDiceListInput(string clarificationText)
         {
             Console.WriteLine("Input the number of sides of the dice " + clarificationText + "\nIf you want to add multiple, insert the numbers with non-number characters in-between");
+            Console.WriteLine("No D0s or D1s");
             Console.WriteLine("Ex. 6, 8, 12, 20");
             string input = Console.ReadLine();
             List<int> dice = new List<int>(0);
             int currentDiceIndex = 0;
             int addToCurrent;
-            foreach(Char c in input.ToCharArray())
+            foreach (Char c in input.ToCharArray())
             {
-                if(int.TryParse(c.ToString(), out addToCurrent))
+                if (int.TryParse(c.ToString(), out addToCurrent))
                 {
-                    if(dice.Count() - 1 == currentDiceIndex)
+                    if (dice.Count() - 1 == currentDiceIndex)
                     {
                         dice[currentDiceIndex] = (dice[currentDiceIndex] * 10) + addToCurrent;
                     }
@@ -154,11 +155,20 @@ namespace DiceGame.Scripts.Menus
                     currentDiceIndex++;
                 }
             }
+            CleanUpDiceList(dice);
+            return dice;
+        }
+
+        private static void CleanUpDiceList(List<int> dice)
+        {
             while (dice.Contains(0))
             {
                 dice.Remove(0);
             }
-            return dice;
+            while (dice.Contains(1))
+            {
+                dice.Remove(1);
+            }
         }
     }
 }
