@@ -1,12 +1,12 @@
-﻿using DiceGame.Scripts.Display;
-using DiceGame.Scripts.MultiInstance;
+﻿using DiceGame.Scripts.DiceGame.Display;
+using DiceGame.Scripts.DiceGame.MultiInstance;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiceGame.Scripts.Menus
+namespace DiceGame.Scripts.DiceGame.Menus
 {
     internal class DiceSettings(SettingsDisplay display)
     {
@@ -137,13 +137,13 @@ namespace DiceGame.Scripts.Menus
             List<int> dice = new List<int>(0);
             int currentDiceIndex = 0;
             int addToCurrent;
-            foreach (Char c in input.ToCharArray())
+            foreach (char c in input.ToCharArray())
             {
                 if (int.TryParse(c.ToString(), out addToCurrent))
                 {
                     if (dice.Count() - 1 == currentDiceIndex)
                     {
-                        dice[currentDiceIndex] = (dice[currentDiceIndex] * 10) + addToCurrent;
+                        dice[currentDiceIndex] = dice[currentDiceIndex] * 10 + addToCurrent;
                     }
                     else
                     {

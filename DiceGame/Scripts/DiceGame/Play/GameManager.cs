@@ -1,6 +1,6 @@
-﻿using DiceGame.Scripts.Display;
-using DiceGame.Scripts.Menus;
-using DiceGame.Scripts.MultiInstance;
+﻿using DiceGame.Scripts.DiceGame.Display;
+using DiceGame.Scripts.DiceGame.Menus;
+using DiceGame.Scripts.DiceGame.MultiInstance;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiceGame.Scripts.Play
+namespace DiceGame.Scripts.DiceGame.Play
 {
     internal class GameManager(Settings settingsConst)
     {

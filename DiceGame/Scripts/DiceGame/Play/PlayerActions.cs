@@ -1,12 +1,12 @@
-﻿using DiceGame.Scripts.MultiInstance;
-using DiceGame.Scripts.Display;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DiceGame.Scripts.DiceGame.Display;
+using DiceGame.Scripts.DiceGame.MultiInstance;
 
-namespace DiceGame.Scripts.Play
+namespace DiceGame.Scripts.DiceGame.Play
 {
     internal class PlayerActions(DisplayRound displayConstructor, Random randomConstructor)
     {

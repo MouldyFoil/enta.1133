@@ -1,11 +1,11 @@
-﻿using DiceGame.Scripts.MultiInstance;
+﻿using DiceGame.Scripts.DiceGame.MultiInstance;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiceGame.Scripts.Display
+namespace DiceGame.Scripts.DiceGame.Display
 {
     internal class GeneralDisplay
     {

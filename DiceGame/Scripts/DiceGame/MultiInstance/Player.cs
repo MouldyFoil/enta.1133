@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiceGame.Scripts.MultiInstance
+namespace DiceGame.Scripts.DiceGame.MultiInstance
 {
     internal class Player(bool CPU = false, string name = "unnamed") //The class for the player and opponent.
     {

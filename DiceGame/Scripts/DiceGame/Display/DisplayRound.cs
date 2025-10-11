@@ -1,12 +1,12 @@
-﻿using DiceGame.Scripts.Play;
-using DiceGame.Scripts.MultiInstance;
+﻿using DiceGame.Scripts.DiceGame.Play;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DiceGame.Scripts.DiceGame.MultiInstance;
 
-namespace DiceGame.Scripts.Display
+namespace DiceGame.Scripts.DiceGame.Display
 {
     internal class DisplayRound : GeneralDisplay
     {

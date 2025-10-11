@@ -1,11 +1,11 @@
-﻿using DiceGame.Scripts.Play;
+﻿using DiceGame.Scripts.DiceGame.Play;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiceGame.Scripts.Menus
+namespace DiceGame.Scripts.DiceGame.Menus
 {
     internal class MainMenuManager(GameManager gameManagerConst, Settings settingsConst)
     {

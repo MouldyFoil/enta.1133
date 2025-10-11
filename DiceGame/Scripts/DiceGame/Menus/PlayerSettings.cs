@@ -1,12 +1,12 @@
-﻿using DiceGame.Scripts.Display;
-using DiceGame.Scripts.MultiInstance;
+﻿using DiceGame.Scripts.DiceGame.Display;
+using DiceGame.Scripts.DiceGame.MultiInstance;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiceGame.Scripts.Menus
+namespace DiceGame.Scripts.DiceGame.Menus
 {
     internal class PlayerSettings(SettingsDisplay displayIn)
     {
