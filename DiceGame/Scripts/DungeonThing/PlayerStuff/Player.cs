@@ -1,4 +1,5 @@
-﻿using DiceGame.Scripts.DungeonThing.Rooms;
+﻿using DiceGame.Scripts.DungeonThing.Items;
+using DiceGame.Scripts.DungeonThing.Rooms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,40 +10,68 @@ namespace DiceGame.Scripts.DungeonThing.PlayerStuff
 {
     internal class Player
     {
+        Inventory inventory;
+        internal int fightsWon;
+        internal PlayerCombat combat { get; private set; }
         internal Room currentRoom;
-        Inventory inventory = new Inventory();
-        internal void Move(bool horizontalMovement, bool leftOrUp)
+        bool searching = false;
+        internal Player()
         {
-            if(horizontalMovement && leftOrUp)
+            combat = new PlayerCombat(this);
+            inventory = new(combat);
+        }
+        internal void MovePlayer(bool horizontalMovement, bool leftOrUp)
+        {
+            PlayerMovement.Move(horizontalMovement, leftOrUp, this);
+        }
+        internal bool OpenInventory(bool inCombat)
+        {
+            return inventory.EnterInventory(inCombat);
+        }
+        internal void SearchRoom()
+        {
+            currentRoom.OnRoomSearched();
+            searching = true;
+            while (searching)
             {
-                currentRoom = currentRoom.east;
-            }
-            switch(horizontalMovement, leftOrUp)
-            {
-                case (false, true):
-                    AttemptMoveToRoom(currentRoom.north);
-                    break;
-                case (true, true):
-                    AttemptMoveToRoom(currentRoom.east);
-                    break;
-                case (false, false):
-                    AttemptMoveToRoom(currentRoom.south);
-                    break;
-                case (true, false):
-                    AttemptMoveToRoom(currentRoom.west);
-                    break;
+                if (currentRoom.items.Count() > 0)
+                {
+                    Console.WriteLine("You found stuff in here!");
+                    Console.WriteLine("Inventory space: " + inventory.ReturnSumOfItemsSize() + "/" + inventory.inventorySize);
+                    string foundText = "Items in room:\n";
+                    int itemNum = 1;
+                    foreach (Item item in currentRoom.items)
+                    {
+                        foundText += itemNum.ToString() + ": " + item.ReturnItemNameWithInfo() + "\n";
+                        itemNum++;
+                    }
+                    foundText += "Input the number of the item you want to collect, input 'stop' to stop search";
+                    Console.WriteLine(foundText);
+                }
+                else
+                {
+                    Console.WriteLine("There isn't anything here... input 'stop' to stop the search");
+                }
+                HandleSearchInputs();
             }
         }
-        private void AttemptMoveToRoom(Room nextRoom)
+        internal void HandleSearchInputs()
         {
-            if (nextRoom != null)
+            string input = Console.ReadLine();
+            if(input.ToLower() == "stop")
             {
-                currentRoom = nextRoom;
-                currentRoom.OnRoomEntered();
+                searching = false;
             }
-            else
+            else if(int.TryParse(input, out int intInput) && intInput <= currentRoom.items.Count() && intInput > 0)
             {
-                Console.WriteLine("That room doesn't exist!");
+                CollectItem(currentRoom.items[intInput - 1]);
+            }
+        }
+        internal void CollectItem(Item input)
+        {
+            if (inventory.AddItem(input))
+            {
+                currentRoom.items.Remove(input);
             }
         }
     }

@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace DiceGame.Scripts.DungeonThing.Rooms
 {
-    internal class RoomsGrid
+    internal static class RoomsGrid
     {
-        Room[,] rooms = new Room[3,3];
-        Random random = new Random();
-        internal int sizeX = 3;
-        internal int sizeY = 3;
-        internal void CreateGrid()
+        static Room[,] rooms = new Room[3,3];
+        static Random random = new Random();
+        static internal int sizeX = 10;
+        static internal int sizeY = 10;
+        internal static void CreateGrid()
         {
             rooms = new Room[sizeX, sizeY];
             //Console.WriteLine("Creating grid");
@@ -23,17 +23,27 @@ namespace DiceGame.Scripts.DungeonThing.Rooms
                 for (int x = 0; x < rooms.GetLength(0); x++)
                 {
                     //Console.WriteLine("Starting row " + x);
-                    int randomNum = random.Next(2);
+                    int randomNum = random.Next(4);
                     switch (randomNum)
                     {
                         case 0:
                             rooms[x, y] = new TreasureRoom();
+                            rooms[x, y].OnRoomCreatedGeneric();
                             break;
                         case 1:
                             rooms[x, y] = new EncounterRoom();
+                            rooms[x, y].OnRoomCreatedGeneric();
+                            break;
+                        case 2:
+                            rooms[x, y] = new FountainRoom();
+                            rooms[x, y].OnRoomCreatedGeneric();
+                            break;
+                        case 3:
+                            rooms[x, y] = new BasicRoom();
+                            rooms[x, y].OnRoomCreatedGeneric();
                             break;
                     }
-                    Room currentRoom = rooms[x, y];
+                    /*Room currentRoom = rooms[x, y];
                     if (x - 1 >= 0)
                     {
                         Room westRoom = rooms[x - 1, y];
@@ -45,18 +55,40 @@ namespace DiceGame.Scripts.DungeonThing.Rooms
                         Room southRoom = rooms[x, y - 1];
                         southRoom.north = currentRoom;
                         currentRoom.south = southRoom;
-                    }
+                    }*/
                     //Console.WriteLine("Created room " + x + ", " + y + " it is a type " + randomNum + " room");
                 }
             }
         }
-        internal Room ReturnRoomBasedOnCoords(int x, int y)
+        internal static int ReturnSpecificRoomCoords(Room roomIn, out int outY)
         {
-            return rooms[x,y];
+            for (int y = 0; y < rooms.GetLength(1); y++)
+            {
+                for (int x = 0; x < rooms.GetLength(0); x++)
+                {
+                    if(rooms[x, y] == roomIn)
+                    {
+                        outY = y;
+                        return x;
+                    }
+                }
+            }
+            Console.WriteLine("Can't find room");
+            outY = 0;
+            return 0;
         }
-        internal void ChangeRoomType(int x, int y)
+        internal static Room ReturnRoomBasedOnCoords(int x, int y)
+        {
+            if (x < rooms.GetLength(0) && y < rooms.GetLength(1) && x >= 0 && y >= 0)
+            {
+                return rooms[x, y];
+            }
+            return null;
+        }
+        internal static void ChangeRoomType(int x, int y)
         {
             rooms[x, y] = new TreasureRoom();
+            rooms[x, y].OnRoomCreatedGeneric();
         }
     }
 }

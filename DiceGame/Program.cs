@@ -14,8 +14,7 @@ namespace DiceGame
     {
         static void Main()
         {
-            DungeonGameLoop gameLoop = new DungeonGameLoop();
-            gameLoop.BeginDungeonStuff();
+            DungeonGameLoop.BeginDungeonStuff();
             /*Settings settings = new Settings();
             GameManager gameManager = new GameManager(settings);
             MainMenuManager menuManager = new MainMenuManager(gameManager, settings);
